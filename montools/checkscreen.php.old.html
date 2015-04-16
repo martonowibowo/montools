@@ -1,0 +1,17 @@
+<html>
+
+<form action="checkscreen.php" method="post">
+<p>IP Agent or Domain Name: <input type="text" name="ip_agent"/></p>
+<input type="submit" name="submit" value="CHECK!" />
+</form>
+
+<?php
+$ipagent=$_POST["ip_agent"];
+$cmd = "sudo -u system /opt/montools/checkscreen.sh '$ipagent'";
+#$cmd = "screen -list";
+echo '<pre>';
+passthru($cmd);
+echo '</pre>';
+?>
+</html>
+

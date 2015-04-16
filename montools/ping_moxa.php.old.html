@@ -1,0 +1,27 @@
+<html>
+
+<form action="ping_moxa.php" method="post">
+<p>IP Agent: <input type="text" name="ip_agent"/></p>
+<p>IP Moxa: <input type="text" name="ip_moxa"/></p>
+<input type="submit" name="submit" value="CHECK!" />
+</form>
+
+<?php
+$ipagent=$_POST["ip_agent"];
+$ipmoxa=$_POST["ip_moxa"];
+$cmd = "sudo -u system /opt/montools/ping_moxa.sh '$ipagent' '$ipmoxa'";
+
+
+while (@ ob_end_flush()); // end all output buffers if any
+
+$proc = popen($cmd, 'r');
+echo '<pre>';
+while (!feof($proc))
+{
+    echo fread($proc, 4096);
+    @ flush();
+}
+echo '</pre>';
+?>
+</html>
+

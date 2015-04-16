@@ -1,0 +1,24 @@
+<html>
+
+<form action="ping.php" method="post">
+<p>IP Agent or Domain Name: <input type="text" name="ip_agent"/></p>
+<input type="submit" name="submit" value="PING!" />
+</form>
+
+<?php
+$ipagent=$_POST["ip_agent"];
+$cmd = "/opt/montools/ping.sh '$ipagent'";
+
+while (@ ob_end_flush()); // end all output buffers if any
+
+$proc = popen($cmd, 'r');
+echo '<pre>';
+while (!feof($proc))
+{
+    echo fread($proc, 4096);
+    @ flush();
+}
+echo '</pre>';
+?>
+</html>
+
